@@ -16,7 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-puts "111111111111"
 
 pool_members = search("node", "role:#{node['haproxy']['app_server_role']} AND chef_environment:#{node.chef_environment}") || []
 
@@ -29,17 +28,22 @@ pool_members << node if node.run_list.roles.include?(node['haproxy']['app_server
 puts "xxxxxxxxxxxxxxxxxxxxxxxxx"
 pool_members.map! do |member|
   server_ip = begin
-    Chef::Log.info("zzzzzzzzzzzzzzzz member: #{member.inspect}")
+    Chef::Log.info("member: #{member.inspect}")
     if member.attribute?('cloud')
+      Chef::Log.info("cloud: #{member['cloud']}")
       if node.attribute?('cloud') && (member['cloud']['provider'] == node['cloud']['provider'])
-         member['cloud']['local_ipv4']
+        Chef::Log.info("ipv4: #{member['cloud']'local_ipv4'}")
+        member['cloud']['local_ipv4']
       else
+        Chef::Log.info("ipv4 public: #{member['cloud']'public_ipv4'}")
         member['cloud']['public_ipv4']
       end
     else
+      Chef::Log.info("ipaddress: #{member['ipaddress'}")
       member['ipaddress']
     end
   end
+  Chef::Log.info("server_ip: #{server_ip}")
   {:ipaddress => server_ip, :hostname => member['hostname']}
 end
 
