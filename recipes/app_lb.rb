@@ -16,6 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+puts "111111111111"
 
 pool_members = search("node", "role:#{node['haproxy']['app_server_role']} AND chef_environment:#{node.chef_environment}") || []
 
@@ -25,9 +26,10 @@ pool_members << node if node.run_list.roles.include?(node['haproxy']['app_server
 # we prefer connecting via local_ipv4 if
 # pool members are in the same cloud
 # TODO refactor this logic into library...see COOK-494
+puts "xxxxxxxxxxxxxxxxxxxxxxxxx"
 pool_members.map! do |member|
   server_ip = begin
-    Chef::Log.info("member: #{member.inspect}")
+    Chef::Log.info("zzzzzzzzzzzzzzzz member: #{member.inspect}")
     if member.attribute?('cloud')
       if node.attribute?('cloud') && (member['cloud']['provider'] == node['cloud']['provider'])
          member['cloud']['local_ipv4']
