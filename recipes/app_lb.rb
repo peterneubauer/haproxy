@@ -25,21 +25,20 @@ pool_members << node if node.run_list.roles.include?(node['haproxy']['app_server
 # we prefer connecting via local_ipv4 if
 # pool members are in the same cloud
 # TODO refactor this logic into library...see COOK-494
-puts "xxxxxxxxxxxxxxxxxxxxxxxxx"
 pool_members.map! do |member|
   server_ip = begin
-    Chef::Log.info("member: #{member.inspect}")
+    Chef::Log.info("member: #{member}")
     if member.attribute?('cloud')
       Chef::Log.info("cloud: #{member['cloud']}")
       if node.attribute?('cloud') && (member['cloud']['provider'] == node['cloud']['provider'])
-        Chef::Log.info("ipv4: #{member['cloud']'local_ipv4'}")
+        Chef::Log.info("ipv4: #{member['cloud']'local_ipv4']}")
         member['cloud']['local_ipv4']
       else
-        Chef::Log.info("ipv4 public: #{member['cloud']'public_ipv4'}")
+        Chef::Log.info("ipv4 public: #{member['cloud']'public_ipv4']}")
         member['cloud']['public_ipv4']
       end
     else
-      Chef::Log.info("ipaddress: #{member['ipaddress'}")
+      Chef::Log.info("ipaddress: #{member['ipaddress']}")
       member['ipaddress']
     end
   end
