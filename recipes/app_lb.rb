@@ -31,10 +31,10 @@ pool_members.map! do |member|
     if member.attribute?('cloud')
       Chef::Log.info("cloud: #{member['cloud']}")
       if node.attribute?('cloud') && (member['cloud']['provider'] == node['cloud']['provider'])
-        Chef::Log.info("ipv4: #{member['cloud']'local_ipv4']}")
+        Chef::Log.info("ipv4: #{member['cloud']['local_ipv4']}")
         member['cloud']['local_ipv4']
       else
-        Chef::Log.info("ipv4 public: #{member['cloud']'public_ipv4']}")
+        Chef::Log.info("ipv4 public: #{member['cloud']['public_ipv4']}")
         member['cloud']['public_ipv4']
       end
     else
