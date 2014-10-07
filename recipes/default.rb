@@ -57,6 +57,7 @@ if conf['enable_default_http']
   pool = []
   pool << "option httpchk #{conf['httpchk']}" if conf['httpchk']
   servers = node['haproxy']['members'].map do |member|
+    Chef::Log.info("node['haproxy']['members'] : #{node['haproxy']['members']}")
     "#{member['hostname']} #{member['ipaddress']}:#{member['port'] || member_port} weight #{member['weight'] || member_weight} maxconn #{member['max_connections'] || member_max_conn} check"
   end
   haproxy_lb 'servers-http' do
