@@ -27,6 +27,7 @@ pool_members << node if node.run_list.roles.include?(node['haproxy']['app_server
 # TODO refactor this logic into library...see COOK-494
 pool_members.map! do |member|
   server_ip = begin
+    Chef::Log.info("member: #{member.inspect}")
     if member.attribute?('cloud')
       if node.attribute?('cloud') && (member['cloud']['provider'] == node['cloud']['provider'])
          member['cloud']['local_ipv4']
