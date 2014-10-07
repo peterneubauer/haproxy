@@ -50,9 +50,11 @@ pool_members.sort! do |a,b|
   a[:hostname].downcase <=> b[:hostname].downcase
 end
 
+node.override['haproxy']['members'] = pool_members
+Chef::Log.info("members: #{node['haproxy']['members']}")
+
 pool = ["options httpchk #{node['haproxy']['httpchk']}"] if node['haproxy']['httpchk']
 servers = pool_members.uniq.map do |s|
-    Chef::Log.info("servers: #{s}")
   "#{s[:hostname]} #{s[:ipaddress]}:#{node['haproxy']['member_port']} weight 1 maxconn #{node['haproxy']['member_max_connections']} check"
 end
 haproxy_lb 'servers-http' do

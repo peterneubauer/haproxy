@@ -19,6 +19,8 @@
 
 include_recipe "haproxy::install_#{node['haproxy']['install_method']}"
 
+
+
 cookbook_file "/etc/default/haproxy" do
   source "haproxy-default"
   owner "root"
